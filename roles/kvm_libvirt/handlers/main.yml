@@ -1,0 +1,8 @@
+---
+- name: Reload kvm module
+  shell: |
+    modprobe -r kvm_intel || true
+    modprobe -r kvm_amd || true
+    modprobe kvm_intel || modprobe kvm_amd
+  become: true
+

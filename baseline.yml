@@ -1,0 +1,6 @@
+---
+- name: Configure standard base system configuration
+  hosts: all
+  roles:
+    - role: configure_ssh
+    

@@ -1,0 +1,7 @@
+---
+# Set to true to enable nested virtualization if supported
+enable_nested_virtualization: false
+
+# List of additional packages to install (optional)
+extra_kvm_packages: []
+

@@ -1,0 +1,10 @@
+---
+
+all:
+  vars:
+    ansible_user: deploy
+  hosts:
+    srv0001:
+      ansible_host: 10.0.1.12
+      
+

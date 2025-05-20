@@ -1,0 +1,8 @@
+sshd_config_files:
+  - 40-enable-fido2.conf
+
+user_authorized_keys:
+  - user: admin
+    key: "{{ lookup('file', 'files/admin-red.pub') }}"
+  - user: admin
+    key: "{{ lookup('file', 'files/admin-blue.pub') }}"

@@ -1,0 +1,14 @@
+- name: Copy sshd_config files to host
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/ssh/sshd_config.d/{{ item }}"
+    owner: root
+    group: root
+    mode: 600
+  with_items: "{{ sshd_config_files }}"
+
+- name: Add user ssh keys
+  authorized_key:
+    user: "{{ item.user }}"
+    key: "{{ item.key }}"
+    state: present

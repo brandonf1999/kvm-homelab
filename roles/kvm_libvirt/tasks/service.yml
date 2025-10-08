@@ -1,0 +1,7 @@
+---
+- name: Enable and set libvirtd state
+  ansible.builtin.service:
+    name: libvirtd
+    enabled: "{{ kvm_libvirt_libvirtd_enabled }}"
+    state: "{{ kvm_libvirt_libvirtd_state }}"
+  become: true

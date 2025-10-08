@@ -1,0 +1,15 @@
+---
+- name: Ensure libvirt group exists
+  ansible.builtin.group:
+    name: libvirt
+    state: present
+  become: true
+
+
+- name: Add users to libvirt group
+  ansible.builtin.user:
+    name: "{{ item }}"
+    groups: libvirt
+    append: true
+  loop: "{{ kvm_libvirt_users }}"
+  become: true

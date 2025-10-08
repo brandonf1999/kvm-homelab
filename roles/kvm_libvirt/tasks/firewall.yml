@@ -1,0 +1,13 @@
+---
+# Minimal openings commonly used by the default NAT network (libvirt manages its own dnsmasq/iptables).
+# Typically *not* required for host-local use; included for completeness.
+
+
+- name: Open libvirt service in firewalld (if present)
+  ansible.posix.firewalld:
+    service: libvirt
+    permanent: true
+    immediate: true
+    state: enabled
+  become: true
+  when: ansible_facts.services is not defined or ansible_facts.os_family == 'RedHat'

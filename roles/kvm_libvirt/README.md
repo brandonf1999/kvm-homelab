@@ -1,46 +1,26 @@
-# 🖥️ Ansible Role: `kvm_libvirt`
+# kvm_libvirt (Rocky 10)
 
-This Ansible role installs and configures a basic virtualization layer using **KVM** and **libvirt** on Linux hosts. It supports both **Debian/Ubuntu** and **RHEL/CentOS** systems.
+A tiny, pragmatic role to get KVM/QEMU and libvirt ready on Rocky Linux 10.
 
----
 
-## ✅ Features
+## Variables
+See `defaults/main.yml` for all options. Common ones:
 
-- Installs KVM, libvirt, and related virtualization tools
-- Enables and starts `libvirtd` service
-- Optional: Enables **nested virtualization** for Intel/AMD CPUs
-- Installs additional KVM packages if specified
-- Automatically detects supported Linux distribution
 
----
+- `kvm_libvirt_users`: list of users to add to `libvirt` group.
+- `kvm_libvirt_enable_nested`: set to `true` to enable nested virtualization.
+- `kvm_libvirt_ensure_default_network`: ensure the `default` NAT network is active and autostarts.
 
-## 📦 Role Variables
 
-| Variable                     | Default  | Description                                                  |
-|-----------------------------|----------|--------------------------------------------------------------|
-| `enable_nested_virtualization` | `true`   | Enables nested virtualization if supported                   |
-| `extra_kvm_packages`        | `[]`     | Optional list of extra packages to install (e.g. `virt-top`) |
-
-You can override these variables in your playbook or inventory.
-
----
-
-## 🧩 Dependencies
-
-None
-
----
-
-## 🚀 Example Playbook
-
+## Example playbook
 ```yaml
-- name: Provision a KVM virtualization host
-  hosts: kvm_hosts
+- hosts: kvm_hosts
   become: true
   roles:
     - role: kvm_libvirt
       vars:
-        enable_nested_virtualization: true
-        extra_kvm_packages:
-          - virt-top
-
+        kvm_libvirt_users: ["admin"]
+        kvm_libvirt_enable_nested: true
+        kvm_libvirt_ensure_default_network: true
+        kvm_libvirt_manage_firewall: false
+```

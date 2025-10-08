@@ -1,0 +1,7 @@
+---
+- name: Ensure virtualization packages are present
+  ansible.builtin.dnf:
+    name: "{{ kvm_libvirt_packages }}"
+    state: present
+    update_cache: true
+  become: true

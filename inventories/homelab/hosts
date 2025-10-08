@@ -2,9 +2,9 @@
 
 all:
   vars:
-    ansible_user: deploy
+    ansible_user: admin
   hosts:
-    srv0001:
-      ansible_host: 10.0.1.12
+    virt0001:
+      ansible_host: 10.0.1.21
       
 

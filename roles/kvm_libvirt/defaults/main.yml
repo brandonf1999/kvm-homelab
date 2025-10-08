@@ -1,7 +1,29 @@
 ---
-# Set to true to enable nested virtualization if supported
-enable_nested_virtualization: false
+# Packages to install (adjust to taste)
+kvm_libvirt_packages:
+- qemu-kvm
+- libvirt
+- virt-install
+- libvirt-client
+- virt-what
 
-# List of additional packages to install (optional)
-extra_kvm_packages: []
 
+# Service management
+kvm_libvirt_libvirtd_state: started # started|stopped
+kvm_libvirt_libvirtd_enabled: true
+
+
+# Add users to the libvirt group (non-root virsh/virt-manager access)
+kvm_libvirt_users: ['admin'] 
+
+
+# Default NAT network (usually pre-seeded by libvirt). If true, ensure it's active+autostart.
+kvm_libvirt_ensure_default_network: true
+
+
+# Nested virtualization; if true, set module options for the detected vendor (Intel/AMD) and reload if possible.
+kvm_libvirt_enable_nested: false
+
+
+# Manage basic firewall openings for libvirt's default NAT DNS/DHCP (not required for local use)
+kvm_libvirt_manage_firewall: true

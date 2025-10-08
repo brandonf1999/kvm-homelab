@@ -1,6 +1,0 @@
-- name: Set up KVM virtualization host
-  hosts: kvm_hosts
-  become: true
-  roles:
-    - kvm_libvirt
-

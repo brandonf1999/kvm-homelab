@@ -1,0 +1,4 @@
+{# Render authorized_keys content for a single user #}
+{% for key in configure_ssh_current_keys | default([]) -%}
+{{ key }}
+{% endfor -%}

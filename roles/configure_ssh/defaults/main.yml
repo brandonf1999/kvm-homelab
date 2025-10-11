@@ -1,0 +1,3 @@
+---
+configure_ssh_authorized_users: []
+configure_ssh_authorized_keys_file: authorized_keys

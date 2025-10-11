@@ -1,14 +1,38 @@
+---
 - name: Copy sshd_config files to host
-  copy:
+  ansible.builtin.copy:
     src: "{{ item }}"
     dest: "/etc/ssh/sshd_config.d/{{ item }}"
     owner: root
     group: root
-    mode: 600
-  with_items: "{{ sshd_config_files }}"
+    mode: "0600"
+  loop: "{{ sshd_config_files }}"
+  loop_control:
+    label: "{{ item }}"
+  become: true
 
-- name: Add user ssh keys
-  authorized_key:
-    user: "{{ item.user }}"
-    key: "{{ item.key }}"
-    state: present
+- name: Ensure .ssh directories exist for managed users
+  ansible.builtin.file:
+    path: "{{ (item.home | default('/home/' + item.user)) + '/.ssh' }}"
+    state: directory
+    owner: "{{ item.user }}"
+    group: "{{ item.group | default(item.user) }}"
+    mode: "0700"
+  loop: "{{ configure_ssh_authorized_users }}"
+  loop_control:
+    label: "{{ item.user }}"
+  become: true
+
+- name: Install authorized keys via template
+  ansible.builtin.template:
+    src: authorized_keys.j2
+    dest: "{{ (item.home | default('/home/' + item.user)) + '/.ssh/' + (item.filename | default(configure_ssh_authorized_keys_file)) }}"
+    owner: "{{ item.user }}"
+    group: "{{ item.group | default(item.user) }}"
+    mode: "0600"
+  vars:
+    configure_ssh_current_keys: "{{ item.get('keys', []) | list }}"
+  loop: "{{ configure_ssh_authorized_users }}"
+  loop_control:
+    label: "{{ item.user }}"
+  become: true

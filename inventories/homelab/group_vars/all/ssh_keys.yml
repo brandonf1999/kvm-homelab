@@ -1,0 +1,10 @@
+---
+configure_ssh_authorized_users:
+  - user: admin
+    home: /home/admin
+    keys:
+      - "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIIQTY0vkNXWYC+9gMNpP7RUpVN8D466MTxWZZPWNjoyuAAAABHNzaDo= Red"
+      - "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAICcBGh2QCoVfy1APsi8mOxcw9aQ835KzRExzHIEndma9AAAABHNzaDo= Blue"
+      - "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAII39+v6HXygCfPpey338v8zhLWE8AuE4Z3/YGoGKLS9sAAAABHNzaDo= ssh:"
+      - "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBMjH+EsReGbXMeVNqggrXO4Z8WT5qC2m6Sd8/oEmNoEb/lMpoX/f3pViFaMOoDPuKIUtHYeE4qCbjz6kogf+pag= admin@framework"
+      - "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBOT/2fet0lS6UH39niBq/YdIKJC/KwfBIxF6WH0WE4NEDbUgwD6bcMaXKAh2lDTiflJAS26ubwRnMiL9DQw/ymE= admin@framework"

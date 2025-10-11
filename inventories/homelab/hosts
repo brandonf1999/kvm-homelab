@@ -1,10 +1,9 @@
 ---
-
 all:
   vars:
     ansible_user: admin
   hosts:
     virt0001:
       ansible_host: 10.0.1.21
-      
-
+    docker0001:
+      ansible_host: 10.0.1.11

@@ -1,0 +1,81 @@
+---
+- name: Ensure node exporter system user exists
+  ansible.builtin.user:
+    name: "{{ prometheus_node_exporter_user }}"
+    shell: /usr/sbin/nologin
+    system: true
+    create_home: false
+  become: true
+
+- name: Ensure textfile collector directory exists
+  ansible.builtin.file:
+    path: "{{ prometheus_node_exporter_textfile_dir }}"
+    state: directory
+    owner: "{{ prometheus_node_exporter_user }}"
+    group: "{{ prometheus_node_exporter_user }}"
+    mode: "0755"
+  become: true
+
+- name: Download node exporter archive
+  ansible.builtin.get_url:
+    url: "{{ prometheus_node_exporter_download_url }}"
+    dest: "{{ prometheus_node_exporter_download_dir }}/{{ prometheus_node_exporter_archive }}.tar.gz"
+    mode: "0644"
+  become: true
+
+- name: Extract node exporter archive
+  ansible.builtin.unarchive:
+    src: "{{ prometheus_node_exporter_download_dir }}/{{ prometheus_node_exporter_archive }}.tar.gz"
+    dest: "{{ prometheus_node_exporter_download_dir }}"
+    remote_src: true
+    creates: "{{ prometheus_node_exporter_download_dir }}/{{ prometheus_node_exporter_archive }}/node_exporter"
+  become: true
+
+- name: Install node exporter binary
+  ansible.builtin.copy:
+    src: "{{ prometheus_node_exporter_download_dir }}/{{ prometheus_node_exporter_archive }}/node_exporter"
+    dest: "{{ prometheus_node_exporter_install_dir }}/node_exporter"
+    mode: "0755"
+    owner: root
+    group: root
+    remote_src: true
+    force: false
+  become: true
+
+- name: Deploy systemd unit file
+  ansible.builtin.template:
+    src: node_exporter.service.j2
+    dest: /etc/systemd/system/node_exporter.service
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  notify: Restart node exporter
+
+- name: Gather service facts (for firewalld detection)
+  ansible.builtin.service_facts:
+  when: prometheus_node_exporter_manage_firewall
+
+- name: Open node exporter port in firewalld
+  ansible.posix.firewalld:
+    port: "{{ prometheus_node_exporter_firewall_port }}"
+    permanent: true
+    immediate: true
+    state: enabled
+    zone: "{{ prometheus_node_exporter_firewalld_zone }}"
+  become: true
+  when:
+    - prometheus_node_exporter_manage_firewall
+    - ansible_facts.services is defined
+
+- name: Reload systemd daemon
+  ansible.builtin.systemd:
+    daemon_reload: true
+  become: true
+
+- name: Ensure node exporter service state
+  ansible.builtin.service:
+    name: "{{ prometheus_node_exporter_service }}"
+    enabled: "{{ prometheus_node_exporter_enabled }}"
+    state: "{{ prometheus_node_exporter_state }}"
+  become: true

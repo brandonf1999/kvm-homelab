@@ -5,4 +5,5 @@
   roles:
     - role: kvm_libvirt
       tags: [ install_kvm ]
-
+    - role: prometheus_node_exporter
+      tags: [ metrics ]

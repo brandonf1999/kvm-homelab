@@ -1,0 +1,8 @@
+---
+- name: Ensure EPEL repository is installed
+  ansible.builtin.dnf:
+    name: "{{ configure_repos_epel_package }}"
+    state: "{{ configure_repos_epel_state }}"
+    update_cache: true
+  become: true
+  when: configure_repos_enable_epel

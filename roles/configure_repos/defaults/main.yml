@@ -1,0 +1,4 @@
+---
+configure_repos_enable_epel: true
+configure_repos_epel_package: epel-release
+configure_repos_epel_state: present

@@ -9,6 +9,9 @@ See `defaults/main.yml` for all options. Common ones:
 
 - `kvm_libvirt_users`: list of users to add to `libvirt` group.
 - `kvm_libvirt_enable_nested`: set to `true` to enable nested virtualization.
+- `kvm_libvirt_enable_ksm`: start and enable `ksm.service` for memory deduplication.
+- `kvm_libvirt_ksm_packages`: packages to install when enabling KSM (defaults to `['ksmtuned']`).
+- `kvm_libvirt_ksm_services`: services to start/stop when toggling KSM (defaults to `['ksm', 'ksmtuned']`).
 - `kvm_libvirt_ensure_default_network`: ensure the `default` NAT network is active and autostarts.
 
 
@@ -21,6 +24,7 @@ See `defaults/main.yml` for all options. Common ones:
       vars:
         kvm_libvirt_users: ["admin"]
         kvm_libvirt_enable_nested: true
+        kvm_libvirt_enable_ksm: true
         kvm_libvirt_ensure_default_network: true
         kvm_libvirt_manage_firewall: false
 ```

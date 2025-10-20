@@ -5,3 +5,15 @@
     state: present
     update_cache: true
   become: true
+
+
+- name: Ensure KSM packages and tuning service are present when enabled
+  ansible.builtin.dnf:
+    name: "{{ kvm_libvirt_ksm_packages }}"
+    state: present
+    update_cache: true
+  become: true
+  when:
+    - kvm_libvirt_enable_ksm | bool
+    - kvm_libvirt_ksm_packages | length > 0
+

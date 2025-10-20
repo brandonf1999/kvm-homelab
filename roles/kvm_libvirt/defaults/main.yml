@@ -13,6 +13,20 @@ kvm_libvirt_libvirtd_state: started # started|stopped
 kvm_libvirt_libvirtd_enabled: true
 
 
+# Kernel Samepage Merging; if true, ensure ksm.service is enabled and running.
+kvm_libvirt_enable_ksm: true
+
+
+# Packages required for KSM support when enabled
+kvm_libvirt_ksm_packages:
+- ksmtuned
+
+
+# Services to manage when KSM is toggled
+kvm_libvirt_ksm_services:
+- ksm
+- ksmtuned
+
 # Add users to the libvirt group (non-root virsh/virt-manager access)
 kvm_libvirt_users: ['admin'] 
 

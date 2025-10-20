@@ -5,3 +5,31 @@
     enabled: "{{ kvm_libvirt_libvirtd_enabled }}"
     state: "{{ kvm_libvirt_libvirtd_state }}"
   become: true
+
+
+- name: Ensure Kernel Samepage Merging services are active
+  ansible.builtin.service:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  become: true
+  loop: "{{ kvm_libvirt_ksm_services }}"
+  loop_control:
+    label: "{{ item }}"
+  when:
+    - kvm_libvirt_enable_ksm | bool
+    - kvm_libvirt_ksm_services | length > 0
+
+
+- name: Ensure Kernel Samepage Merging services are stopped when disabled
+  ansible.builtin.service:
+    name: "{{ item }}"
+    enabled: false
+    state: stopped
+  become: true
+  loop: "{{ kvm_libvirt_ksm_services }}"
+  loop_control:
+    label: "{{ item }}"
+  when:
+    - not (kvm_libvirt_enable_ksm | bool)
+    - kvm_libvirt_ksm_services | length > 0

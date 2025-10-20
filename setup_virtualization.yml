@@ -1,7 +1,7 @@
 ---
 - name: Setup virtualisation layer
   become: true
-  hosts: virt0001 
+  hosts: virt0001,virt0002
   roles:
     - role: kvm_libvirt
       tags: [ install_kvm ]

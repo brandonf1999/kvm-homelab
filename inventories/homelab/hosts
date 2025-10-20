@@ -5,5 +5,7 @@ all:
   hosts:
     virt0001:
       ansible_host: 10.0.1.21
+    virt0002:
+      ansible_host: 10.0.1.22
     docker0001:
       ansible_host: 10.0.1.11
